@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunal Verma - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --cursor-size: 20px;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-syne {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Hero Image Masking */
+        .hero-image-container {
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: clip-path 0.5s ease;
+        }
+        
+        .hero-image-container:hover {
+             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        /* Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Menu Link Hover Effect */
+        .menu-link {
+            position: relative;
+        }
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        .menu-link:hover::after {
+            width: 100%;
+        }
+
+        /* Project View Transition */
+        #project-view {
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        
+        body.project-open {
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Preloader -->
+    <div id="loader" class="flex-col gap-4">
+        <h1 class="font-syne text-4xl font-bold tracking-widest">KUNAL VERMA</h1>
+        <div class="w-64 h-[1px] bg-gray-800 rounded-full overflow-hidden">
+            <div id="loader-bar" class="h-full bg-white w-0"></div>
+        </div>
+    </div>
+
+    <!-- Navigation (Main) -->
+    <nav class="fixed w-full z-50 px-8 py-8 flex justify-between items-center mix-blend-difference text-white">
+        <a href="#" onclick="closeProject(); return false;" class="font-syne font-bold text-2xl tracking-tighter hover-trigger">KV.</a>
+        
+        <div class="hidden md:flex gap-12 items-center">
+            <a href="#work" onclick="closeProject()" class="menu-link hover-trigger text-sm uppercase tracking-widest">Projects</a>
+            <a href="#about" onclick="closeProject()" class="menu-link hover-trigger text-sm uppercase tracking-widest">About</a>
+            <a href="#contact" onclick="closeProject()" class="px-6 py-2 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-300 hover-trigger text-sm uppercase tracking-widest">Let's Talk</a>
+        </div>
+        
+        <button class="md:hidden hover-trigger">
+            <i data-lucide="menu"></i>
+        </button>
+    </nav>
+
+    <!-- Main Home Content -->
+    <main id="home-view" class="transition-opacity duration-500">
+        
+        <!-- Hero Section -->
+        <header class="min-h-screen flex items-center px-6 relative overflow-hidden pt-20">
+            <!-- Background Abstract Image (Parallax) -->
+            <div class="absolute right-0 top-0 w-[60vw] h-full opacity-40 mix-blend-screen pointer-events-none z-0">
+                 <img src="DAFSDXC.jpg" id="hero-bg" class="w-full h-full object-cover grayscale opacity-50" alt="Abstract Background">
+                 <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto w-full z-10 relative">
+                <div class="overflow-hidden mb-2">
+                    <p class="text-gray-400 text-sm md:text-base uppercase tracking-[0.3em] animate-up opacity-0 translate-y-10">Graphic & UI/UX Designer</p>
+                </div>
+                
+                <h1 class="font-syne text-[12vw] leading-[0.8] font-bold uppercase mix-blend-overlay opacity-20 absolute top-0 left-0 select-none pointer-events-none">
+                    Portfolio
+                </h1>
+
+                <div class="relative mt-4">
+                    <div class="overflow-hidden">
+                        <h1 class="hero-title font-syne text-[5rem] md:text-[8rem] lg:text-[10rem] font-bold leading-[0.9] text-white">
+                            KUNAL
+                        </h1>
+                    </div>
+                    <div class="overflow-hidden">
+                        <h1 class="hero-title font-syne text-[5rem] md:text-[8rem] lg:text-[10rem] font-bold leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-500">
+                            VERMA
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-end justify-between mt-12 gap-8 border-t border-gray-800 pt-8 animate-up opacity-0 translate-y-10">
+                    <p class="max-w-md text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Based in India. Creating digital products, brands, and experiences with a focus on motion and interaction.
+                    </p>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm text-gray-300 uppercase tracking-widest">Available for Freelance</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+                <span class="text-[10px] uppercase tracking-widest">Scroll</span>
+                <div class="w-[1px] h-12 bg-white"></div>
+            </div>
+        </header>
+
+        <!-- Marquee -->
+        <div class="py-8 bg-white text-black z-20 relative overflow-hidden">
+            <div class="marquee-container font-syne font-bold text-5xl md:text-7xl uppercase">
+                <div class="marquee-content">
+                    &nbsp;Visual Identity — Web Design — Art Direction — Motion Graphics — Visual Identity — Web Design — Art Direction — Motion Graphics —
+                </div>
+            </div>
+        </div>
+
+        <!-- Selected Works -->
+        <section id="work" class="py-32 px-6 bg-[#050505]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="font-syne text-4xl md:text-6xl mb-24 flex items-center gap-6">
+                    <span class="block w-12 h-[2px] bg-white"></span>
+                    SELECTED WORKS
+                </h2>
+
+                <div class="space-y-32">
+                    
+                    <!-- Project 1: AXION -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="axion">
+                        <div class="order-2 md:order-1">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">AXION</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Branding</span>
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Identity</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">A comprehensive brand identity for a futuristic tech startup, focusing on speed, agility, and modern aesthetics.</p>
+                            <button onclick="openProject('axion')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('axion')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="AXION.jpg" alt="Axion" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=AXION'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: BURGER -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="crave">
+                        <div class="order-1 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('crave')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="Burger.jpg" alt="Burger" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Burger'">
+                            </div>
+                        </div>
+                        <div class="order-2">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">CRAVE</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Photography</span>
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Social</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">High-end food photography and social media campaign for a gourmet burger chain.</p>
+                            <button onclick="openProject('crave')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: UNBOUND -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="unbound">
+                        <div class="order-2 md:order-1">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">UNBOUND</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Editorial</span>
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Print</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">Editorial design layout for a contemporary lifestyle magazine.</p>
+                            <button onclick="openProject('unbound')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('unbound')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="Unbound.jpg" alt="Unbound" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Unbound'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4: FORGE -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="forge">
+                        <div class="order-1 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('forge')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="Forgeprotein.jpg" alt="Forge Protein" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Forge'">
+                            </div>
+                        </div>
+                        <div class="order-2">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">FORGE</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Product</span>
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Branding</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">High-performance protein supplement branding targeting elite athletes.</p>
+                            <button onclick="openProject('forge')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project 5: ZEST -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="zest">
+                        <div class="order-2 md:order-1">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">ZEST</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Packaging</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">Fresh and organic lemon juice packaging design.</p>
+                            <button onclick="openProject('zest')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('zest')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="lemonjuice.jpg" alt="Lemon Juice" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Lemon'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 6: NESCAFE -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="nescafe">
+                        <div class="order-1 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('nescafe')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="coffeenescafe.jpg" alt="Nescafe" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Nescafe'">
+                            </div>
+                        </div>
+                        <div class="order-2">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">NESCAFE</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Concept</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">Conceptual rebranding for Nescafe, exploring a modern, minimalist aesthetic.</p>
+                            <button onclick="openProject('nescafe')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project 7: STREET -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="street">
+                        <div class="order-2 md:order-1">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">STREET</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Apparel</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">Oversized tee design for a new streetwear collection.</p>
+                            <button onclick="openProject('street')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('street')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="oversietee.jpg" alt="Streetwear" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Streetwear'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 8: BREW -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="brew">
+                        <div class="order-1 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('brew')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="coffeeminimalism.jpg" alt="Minimal Coffee" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Minimal'">
+                            </div>
+                        </div>
+                        <div class="order-2">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">BREW</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Packaging</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">Minimalist coffee bean packaging design.</p>
+                            <button onclick="openProject('brew')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project 9: DFZ -->
+                    <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="dfz">
+                        <div class="order-2 md:order-1">
+                            <h3 class="font-syne text-5xl md:text-7xl font-bold mb-4">DFZ ID</h3>
+                            <div class="flex flex-wrap gap-2 mb-6 text-sm text-gray-500 uppercase tracking-wider">
+                                <span class="border border-gray-800 px-3 py-1 rounded-full">Typography</span>
+                            </div>
+                            <p class="text-gray-400 mb-8 max-w-md">Bold typographic identity system for a digital design festival.</p>
+                            <button onclick="openProject('dfz')" class="inline-flex items-center gap-2 hover-trigger group-hover:translate-x-2 transition-transform duration-300 border-b border-transparent hover:border-white pb-1">
+                                View Case Study <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('dfz')">
+                             <div class="image-container overflow-hidden rounded-lg hover-trigger">
+                                <img src="dfz.jpg" alt="DFZ Identity" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=DFZ'">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="mt-32 text-center">
+                    <button class="group relative inline-block px-12 py-4 border border-white rounded-full overflow-hidden hover-trigger">
+                        <span class="relative z-10 font-syne font-bold uppercase tracking-widest group-hover:text-black transition-colors duration-300">View All Projects</span>
+                        <div class="absolute inset-0 bg-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 px-6 bg-[#050505] text-white">
+            <div class="max-w-7xl mx-auto">
+                <!-- Section Header -->
+                 <h2 class="font-syne text-4xl md:text-6xl mb-24 flex items-center gap-6">
+                    <span class="block w-12 h-[2px] bg-white"></span>
+                    ABOUT ME
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <!-- Image -->
+                    <div class="relative group">
+                         <div class="absolute inset-0 bg-gray-800 transform translate-x-4 translate-y-4 rounded-lg -z-10 transition-transform group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                         <div class="overflow-hidden rounded-lg grayscale hover:grayscale-0 transition-all duration-700 ease-out">
+                            <img src="Kunalverma.png" alt="Kunal Verma" class="w-full h-auto object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Kunal'">
+                         </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="space-y-8">
+                        <h3 class="font-syne text-3xl md:text-5xl font-bold leading-tight">
+                            Designing with purpose,<br>
+                            <span class="text-gray-500">creating with passion.</span>
+                        </h3>
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            I'm Kunal Verma, a multidisciplinary graphic and UI/UX designer based in India. With a keen eye for detail and a love for modern aesthetics, I transform complex ideas into clean, impactful visual stories.
+                        </p>
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            My work bridges the gap between functional design and artistic expression. Whether it's a brand identity, a website, or a motion piece, I strive to create work that not only looks good but feels right.
+                        </p>
+
+                        <!-- Services/Skills List -->
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div>
+                                <h4 class="font-syne font-bold text-xl mb-4">Services</h4>
+                                <ul class="space-y-2 text-gray-500">
+                                    <li>Brand Identity</li>
+                                    <li>UI/UX Design</li>
+                                    <li>Art Direction</li>
+                                    <li>Motion Graphics</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-syne font-bold text-xl mb-4">Recognition</h4>
+                                <ul class="space-y-2 text-gray-500">
+                                    <li>Awwwards SOTD</li>
+                                    <li>Behance Featured</li>
+                                    <li>Best of Design 2023</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pt-8">
+                             <a href="#contact" class="inline-flex items-center gap-2 hover-trigger border-b border-white pb-1 hover:pb-2 transition-all">
+                                Let's Work Together <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="bg-white text-black py-24 px-6 rounded-t-[3rem] relative z-10">
+            <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
+                <h2 class="font-syne text-6xl md:text-9xl font-bold leading-none mb-8 hover:italic transition-all duration-300 cursor-pointer hover-trigger">
+                    LET'S TALK
+                </h2>
+                <p class="text-xl md:text-2xl max-w-2xl mb-12 font-light">
+                    Available for freelance projects. Let's create something memorable together.
+                </p>
+                <a href="mailto:contact@kunalverma.com" class="text-lg border-b border-black pb-1 hover:pb-2 transition-all duration-300 hover-trigger">hello@kunalverma.com</a>
+
+                <div class="flex gap-8 mt-16 text-sm uppercase font-bold tracking-widest">
+                    <a href="#" class="hover:text-gray-500 transition-colors hover-trigger">Instagram</a>
+                    <a href="#" class="hover:text-gray-500 transition-colors hover-trigger">LinkedIn</a>
+                    <a href="#" class="hover:text-gray-500 transition-colors hover-trigger">Behance</a>
+                </div>
+
+                <p class="mt-24 text-xs text-gray-400">© 2024 Kunal Verma. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Project Details View (Hidden by default, slides up) -->
+    <article id="project-view" class="fixed inset-0 z-[60] bg-[#050505] overflow-y-auto transform translate-y-full flex flex-col">
+        <!-- Close Button -->
+        <div class="fixed top-8 right-8 z-50">
+            <button onclick="closeProject()" class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-black hover:scale-110 transition-transform hover-trigger">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Project Hero -->
+        <div class="w-full h-[60vh] md:h-[80vh] relative">
+            <img id="p-hero-img" src="" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-6 md:p-12 w-full">
+                <div class="max-w-7xl mx-auto">
+                    <h1 id="p-title" class="font-syne text-6xl md:text-9xl font-bold uppercase leading-none mb-4">Project Name</h1>
+                    <p id="p-category" class="text-xl md:text-2xl text-gray-400 font-light">Branding / Identity</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Content -->
+        <div class="max-w-7xl mx-auto px-6 py-24 w-full">
+            <div class="grid md:grid-cols-12 gap-12 mb-24">
+                <div class="md:col-span-4 space-y-8">
+                    <div>
+                        <h4 class="text-gray-500 text-sm uppercase tracking-widest mb-2">Client</h4>
+                        <p id="p-client" class="text-xl font-medium">Client Name</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-500 text-sm uppercase tracking-widest mb-2">Services</h4>
+                        <p id="p-services" class="text-xl font-medium">Services List</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-500 text-sm uppercase tracking-widest mb-2">Year</h4>
+                        <p id="p-year" class="text-xl font-medium">2024</p>
+                    </div>
+                </div>
+                <div class="md:col-span-8">
+                    <h3 class="font-syne text-3xl md:text-4xl font-bold mb-8">The Challenge</h3>
+                    <p id="p-desc" class="text-gray-300 text-lg leading-relaxed mb-12">
+                        Project description placeholder.
+                    </p>
+                    <h3 class="font-syne text-3xl md:text-4xl font-bold mb-8">The Solution</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        We approached this project with a focus on minimalism and impact. By stripping away unnecessary elements, we were able to highlight the core value proposition of the brand. The visual identity system was built to be flexible across digital and physical touchpoints, ensuring consistency while allowing for creative expression.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Image Grid Mockup -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                <div class="h-96 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">
+                     <img id="p-img-1" src="" class="w-full h-full object-cover opacity-80">
+                </div>
+                <div class="h-96 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">
+                    <img id="p-img-2" src="" class="w-full h-full object-cover opacity-80">
+                </div>
+            </div>
+            
+            <!-- Navigation Footer -->
+            <div class="border-t border-gray-800 pt-24 text-center">
+                <p class="text-gray-500 uppercase tracking-widest mb-4">Next Project</p>
+                <button id="next-project-btn" class="font-syne text-5xl md:text-8xl font-bold hover:text-gray-400 transition-colors hover-trigger">
+                    NEXT WORK
+                </button>
+            </div>
+        </div>
+    </article>
+
+    <script>
+        lucide.createIcons();
+
+        // --- Data: Project Details ---
+        const projects = {
+            'axion': {
+                title: 'AXION',
+                category: 'Branding / Identity',
+                client: 'Axion Tech',
+                services: 'Brand Strategy, Visual Identity, UI/UX',
+                year: '2024',
+                desc: 'Axion needed a brand identity that communicated speed, precision, and future-forward thinking. We developed a dynamic visual system based on kinetic energy and motion, resulting in a logo that feels like it is constantly moving forward.',
+                img: 'AXION.jpg',
+                next: 'crave'
+            },
+            'crave': {
+                title: 'CRAVE',
+                category: 'Photography / Social Media',
+                client: 'Crave Burgers',
+                services: 'Art Direction, Photography, Social Media',
+                year: '2023',
+                desc: 'For Crave, the goal was to make the viewer hungry instantly. We utilized high-contrast lighting and macro photography to highlight the textures and freshness of the ingredients, creating a "food porn" aesthetic that went viral on social media.',
+                img: 'Burger.jpg',
+                next: 'unbound'
+            },
+            'unbound': {
+                title: 'UNBOUND',
+                category: 'Editorial / Print',
+                client: 'Unbound Magazine',
+                services: 'Editorial Design, Layout, Typography',
+                year: '2023',
+                desc: 'Unbound is a lifestyle magazine for the modern creative. The layout design prioritizes white space and bold typography to create a reading experience that feels breathable and sophisticated, reflecting the unhurried pace of the content.',
+                img: 'Unbound.jpg',
+                next: 'forge'
+            },
+            'forge': {
+                title: 'FORGE',
+                category: 'Product / Branding',
+                client: 'Forge Supplements',
+                services: 'Packaging, Brand Identity, 3D Render',
+                year: '2024',
+                desc: 'Forge targets elite athletes who demand the best. The branding utilizes metallic textures, industrial typography, and a stark black-and-white palette to convey strength, purity, and scientific rigour.',
+                img: 'Forgeprotein.jpg',
+                next: 'zest'
+            },
+            'zest': {
+                title: 'ZEST',
+                category: 'Packaging / Organic',
+                client: 'Zest Organics',
+                services: 'Packaging Design, Illustration',
+                year: '2023',
+                desc: 'Zest wanted to stand out in the crowded juice aisle. We avoided the typical "rustic" look and went for a vibrant, pop-art inspired aesthetic that captures the explosion of flavor found in every bottle.',
+                img: 'lemonjuice.jpg',
+                next: 'nescafe'
+            },
+            'nescafe': {
+                title: 'NESCAFE',
+                category: 'Concept / Rebranding',
+                client: 'Concept Project',
+                services: 'Rebranding, Packaging',
+                year: '2024',
+                desc: 'A conceptual reimagining of the iconic coffee brand. This project explores how Nescafe could pivot to a premium, minimalist aesthetic while retaining its recognizable brand assets, appealing to a younger, design-conscious demographic.',
+                img: 'coffeenescafe.jpg',
+                next: 'street'
+            },
+            'street': {
+                title: 'STREET',
+                category: 'Apparel / Fashion',
+                client: 'Street Culture',
+                services: 'Apparel Design, Merchandise',
+                year: '2023',
+                desc: 'Designed for the urban explorer. This apparel collection merges glitch art aesthetics with functional streetwear silhouettes. The graphics were created using generative code art, ensuring each piece feels digital yet tangible.',
+                img: 'oversietee.jpg',
+                next: 'brew'
+            },
+            'brew': {
+                title: 'BREW',
+                category: 'Packaging / Eco',
+                client: 'Brew Coffee Co.',
+                services: 'Sustainable Packaging, Branding',
+                year: '2023',
+                desc: 'Brew is committed to zero waste. The packaging design reflects this ethos with simple, ink-saving typography printed directly on biodegradable materials. The design proves that sustainability does not mean sacrificing style.',
+                img: 'coffeeminimalism.jpg',
+                next: 'dfz'
+            },
+            'dfz': {
+                title: 'DFZ ID',
+                category: 'Typography / Event',
+                client: 'DFZ Festival',
+                services: 'Event Branding, Motion Graphics',
+                year: '2024',
+                desc: 'Identity for a digital design festival. The concept revolves around "Creative Chaos." We created a custom variable typeface that distorts and adapts based on sound and movement, used across all festival screens and wayfinding.',
+                img: 'dfz.jpg',
+                next: 'axion'
+            }
+        };
+
+        // --- Page Navigation Logic ---
+        const homeView = document.getElementById('home-view');
+        const projectView = document.getElementById('project-view');
+        const body = document.body;
+
+        // Elements to update
+        const pTitle = document.getElementById('p-title');
+        const pCategory = document.getElementById('p-category');
+        const pClient = document.getElementById('p-client');
+        const pServices = document.getElementById('p-services');
+        const pYear = document.getElementById('p-year');
+        const pDesc = document.getElementById('p-desc');
+        const pHeroImg = document.getElementById('p-hero-img');
+        const pImg1 = document.getElementById('p-img-1');
+        const pImg2 = document.getElementById('p-img-2');
+        const nextBtn = document.getElementById('next-project-btn');
+
+        function openProject(id) {
+            const data = projects[id];
+            if (!data) return;
+
+            // Populate Data
+            pTitle.innerText = data.title;
+            pCategory.innerText = data.category;
+            pClient.innerText = data.client;
+            pServices.innerText = data.services;
+            pYear.innerText = data.year;
+            pDesc.innerText = data.desc;
+            
+            // Images
+            pHeroImg.src = data.img;
+            pImg1.src = data.img; // Using same img for mockups for now
+            pImg2.src = data.img;
+
+            // Next Button Logic
+            nextBtn.onclick = () => openProject(data.next);
+
+            // Animation
+            projectView.style.transform = 'translateY(0%)';
+            body.classList.add('project-open');
+            
+            // Scroll to top of project view
+            projectView.scrollTop = 0;
+        }
+
+        function closeProject() {
+            projectView.style.transform = 'translateY(100%)';
+            body.classList.remove('project-open');
+        }
+
+        // --- Custom Cursor ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Re-bind hover triggers dynamically if needed, but for now delegating via CSS/JS mix
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hover-trigger')) {
+                document.body.classList.add('hovering');
+            } else {
+                document.body.classList.remove('hovering');
+            }
+        });
+
+        // --- GSAP Animations ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Loader
+        const loaderBar = document.getElementById('loader-bar');
+        const loader = document.getElementById('loader');
+        
+        window.addEventListener('load', () => {
+            loaderBar.style.width = '100%';
+            setTimeout(() => {
+                gsap.to(loader, {
+                    yPercent: -100,
+                    duration: 1,
+                    ease: "power4.inOut",
+                    onComplete: initAnimations
+                });
+            }, 500);
+        });
+
+        function initAnimations() {
+            // Hero Title Reveal
+            gsap.from('.hero-title', {
+                y: 200,
+                opacity: 0,
+                duration: 1.5,
+                stagger: 0.1,
+                ease: "power4.out",
+                delay: 0.2
+            });
+
+            // Hero Subtext Reveal
+            gsap.to('.animate-up', {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power2.out",
+                delay: 0.8
+            });
+
+            // Parallax Background
+            gsap.to("#hero-bg", {
+                scrollTrigger: {
+                    trigger: "header",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: 100,
+                scale: 1.1,
+                ease: "none"
+            });
+
+            // Project Cards Animation
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        end: "top 20%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 100,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            });
+        }
+    </script>
+</body>
+</html>
