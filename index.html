@@ -167,6 +167,19 @@
         .prose strong { color: #fff; font-weight: 600; }
         .prose ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.5rem; }
 
+        /* Collage Animation */
+        .collage-move {
+            animation: collageMove 60s linear infinite;
+        }
+        .collage-row-reverse {
+            animation-direction: reverse;
+        }
+
+        @keyframes collageMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
     </style>
 </head>
 <body>
@@ -190,6 +203,7 @@
         <div class="hidden md:flex gap-12 items-center">
             <a href="#work" onclick="closeProject()" class="menu-link hover-trigger text-sm uppercase tracking-widest">Projects</a>
             <a href="#about" onclick="closeProject()" class="menu-link hover-trigger text-sm uppercase tracking-widest">About</a>
+            <a href="#skills" onclick="closeProject()" class="menu-link hover-trigger text-sm uppercase tracking-widest">Skills</a>
             <a href="#contact" onclick="closeProject()" class="px-6 py-2 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-300 hover-trigger text-sm uppercase tracking-widest">Let's Talk</a>
         </div>
         
@@ -203,15 +217,60 @@
         
         <!-- Hero Section -->
         <header class="min-h-screen flex items-center px-6 relative overflow-hidden pt-20">
-            <!-- Background Abstract Image (Parallax) -->
-            <div class="absolute right-0 top-0 w-[60vw] h-full opacity-40 mix-blend-screen pointer-events-none z-0">
-                 <img src="DAFSDXC.jpg" id="hero-bg" class="w-full h-full object-cover grayscale opacity-50" alt="Abstract Background">
-                 <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent"></div>
+            <!-- Animated Image Collage Background -->
+            <div class="absolute inset-0 z-0 opacity-30 overflow-hidden pointer-events-none">
+                <div class="flex flex-col gap-4 -rotate-12 scale-125 origin-center">
+                    <!-- Row 1 -->
+                    <div class="flex gap-4 collage-move w-[200%]">
+                        <img src="AXION.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Burger.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Unbound.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Forgeprotein.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="lemonjuice.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <!-- Duplicates for loop -->
+                        <img src="AXION.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Burger.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Unbound.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Forgeprotein.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="lemonjuice.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="flex gap-4 collage-move collage-row-reverse w-[200%]">
+                        <img src="coffeenescafe.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="oversietee.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="coffeeminimalism.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="dfz.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="DAFSDXC.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <!-- Duplicates for loop -->
+                        <img src="coffeenescafe.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="oversietee.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="coffeeminimalism.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="dfz.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="DAFSDXC.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="flex gap-4 collage-move w-[200%]">
+                        <img src="AXION.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Burger.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Unbound.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Forgeprotein.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="lemonjuice.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <!-- Duplicates for loop -->
+                        <img src="AXION.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Burger.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Unbound.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="Forgeprotein.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                        <img src="lemonjuice.jpg" class="w-64 h-40 object-cover rounded-lg grayscale brightness-50">
+                    </div>
+                </div>
+                <!-- Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent z-10"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10"></div>
             </div>
 
             <div class="max-w-7xl mx-auto w-full z-10 relative">
                 <div class="overflow-hidden mb-2">
-                    <p class="text-gray-400 text-sm md:text-base uppercase tracking-[0.3em] animate-up opacity-0 translate-y-10">Graphic & UI/UX Designer</p>
+                    <p class="text-gray-400 text-sm md:text-base uppercase tracking-[0.3em] animate-up opacity-0 translate-y-10">Graphic Designer</p>
                 </div>
                 
                 <h1 class="font-syne text-[12vw] leading-[0.8] font-bold uppercase mix-blend-overlay opacity-20 absolute top-0 left-0 select-none pointer-events-none">
@@ -254,7 +313,7 @@
         <div class="py-8 bg-white text-black z-20 relative overflow-hidden">
             <div class="marquee-container font-syne font-bold text-5xl md:text-7xl uppercase">
                 <div class="marquee-content">
-                    &nbsp;Visual Identity — Web Design — Art Direction — Motion Graphics — Visual Identity — Web Design — Art Direction — Motion Graphics —
+                    &nbsp;Brand Identity — Social Media Post — Thumbnail Design — Brand Identity — Social Media Post  — Thumbnail Design —
                 </div>
             </div>
         </div>
@@ -284,7 +343,7 @@
                         </div>
                         <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('axion')">
                              <div class="image-container overflow-hidden rounded-lg hover-trigger">
-                                <img src="axion.jpg" alt="Axion" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=AXION'">
+                                <img src="AXION.jpg" alt="Axion" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=AXION'">
                             </div>
                         </div>
                     </div>
@@ -324,7 +383,7 @@
                         </div>
                         <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('unbound')">
                              <div class="image-container overflow-hidden rounded-lg hover-trigger">
-                                <img src="unbound-shoes.jpg" alt="Unbound" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Unbound'">
+                                <img src="Unbound.jpg" alt="Unbound" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Unbound'">
                             </div>
                         </div>
                     </div>
@@ -333,7 +392,7 @@
                     <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="forge">
                         <div class="order-1 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('forge')">
                              <div class="image-container overflow-hidden rounded-lg hover-trigger">
-                                <img src="forge.jpg" alt="Forge Protein" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Forge'">
+                                <img src="Forgeprotein.jpg" alt="Forge Protein" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Forge'">
                             </div>
                         </div>
                         <div class="order-2">
@@ -372,7 +431,7 @@
                     <div class="project-card group relative grid md:grid-cols-2 gap-12 items-center" data-id="nescafe">
                         <div class="order-1 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('nescafe')">
                              <div class="image-container overflow-hidden rounded-lg hover-trigger">
-                                <img src="nescafe.jpg" alt="Nescafe" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Nescafe'">
+                                <img src="coffeenescafe.jpg" alt="Nescafe" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Nescafe'">
                             </div>
                         </div>
                         <div class="order-2">
@@ -401,7 +460,7 @@
                         </div>
                         <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('street')">
                              <div class="image-container overflow-hidden rounded-lg hover-trigger">
-                                <img src="dirtsaint.jpg" alt="Streetwear" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Streetwear'">
+                                <img src="oversietee.jpg" alt="Streetwear" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Streetwear'">
                             </div>
                         </div>
                     </div>
@@ -439,7 +498,7 @@
                         </div>
                         <div class="order-1 md:order-2 relative group-hover:scale-95 transition-transform duration-700 ease-in-out cursor-pointer" onclick="openProject('dfz')">
                              <div class="image-container overflow-hidden rounded-lg hover-trigger">
-                                <img src="juicera.jpg" alt="DFZ Identity" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=DFZ'">
+                                <img src="dfz.jpg" alt="DFZ Identity" class="w-full aspect-[4/5] object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=DFZ'">
                             </div>
                         </div>
                     </div>
@@ -469,7 +528,7 @@
                     <div class="relative group">
                          <div class="absolute inset-0 bg-gray-800 transform translate-x-4 translate-y-4 rounded-lg -z-10 transition-transform group-hover:translate-x-6 group-hover:translate-y-6"></div>
                          <div class="overflow-hidden rounded-lg grayscale hover:grayscale-0 transition-all duration-700 ease-out">
-                            <img src="Kunalverma.png" alt="Kunal Verma" class="w-full h-auto object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Kunal'">
+                            <img src="kunal verma.jpg" alt="Kunal Verma" class="w-full h-auto object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/1a1a1a/FFF?text=Kunal'">
                          </div>
                     </div>
 
@@ -480,10 +539,10 @@
                             <span class="text-gray-500">creating with passion.</span>
                         </h3>
                         <p class="text-gray-400 text-lg leading-relaxed">
-                            I'm Kunal Verma, a multidisciplinary graphic and UI/UX designer based in India. With a keen eye for detail and a love for modern aesthetics, I transform complex ideas into clean, impactful visual stories.
+                            I am a self-made graphic designer, and my journey began in 2019 when I was just 15 years old. Fueled by curiosity and creativity, I started learning from YouTube, especially from GFX Mentor, which became a crucial part of my foundation.
                         </p>
                         <p class="text-gray-400 text-lg leading-relaxed">
-                            My work bridges the gap between functional design and artistic expression. Whether it's a brand identity, a website, or a motion piece, I strive to create work that not only looks good but feels right.
+                            Starting out with online tutorials, I steadily honed my skills and developed a strong understanding of design principles, tools, and techniques. Over the years, I’ve continuously pushed myself to create impactful visuals and build my own creative identity.
                         </p>
 
                         <!-- Services/Skills List -->
@@ -492,25 +551,82 @@
                                 <h4 class="font-syne font-bold text-xl mb-4">Services</h4>
                                 <ul class="space-y-2 text-gray-500">
                                     <li>Brand Identity</li>
-                                    <li>UI/UX Design</li>
-                                    <li>Art Direction</li>
-                                    <li>Motion Graphics</li>
+                                    <li>Thumbnail Design</li>
+                                    <li>Social Media + AD creatives</li>
                                 </ul>
                             </div>
-                            <div>
-                                <h4 class="font-syne font-bold text-xl mb-4">Recognition</h4>
-                                <ul class="space-y-2 text-gray-500">
-                                    <li>Awwwards SOTD</li>
-                                    <li>Behance Featured</li>
-                                    <li>Best of Design 2023</li>
-                                </ul>
-                            </div>
+                            
                         </div>
 
                         <div class="pt-8">
                              <a href="#contact" class="inline-flex items-center gap-2 hover-trigger border-b border-white pb-1 hover:pb-2 transition-all">
                                 Let's Work Together <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-32 px-6 bg-[#050505] text-white border-t border-gray-900">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="font-syne text-4xl md:text-6xl mb-24 flex items-center gap-6">
+                    <span class="block w-12 h-[2px] bg-white"></span>
+                    EXPERTISE
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-16">
+                    <div>
+                        <h3 class="font-syne text-3xl font-bold mb-6">Technical Proficiency</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">
+                            My toolset is a blend of industry standards and modern prototyping tools. I believe in mastering the craft to remove friction between idea and execution.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-10">
+                        <!-- Skill 1 -->
+                        <div class="skill-item">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-syne text-xl font-bold tracking-wide">Adobe Photoshop</span>
+                                <span class="font-space text-sm text-gray-400">90%</span>
+                            </div>
+                            <div class="w-full h-[2px] bg-gray-800 relative">
+                                <div class="absolute top-0 left-0 h-full bg-white skill-bar" style="width: 0%" data-target="90%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Skill 2 -->
+                        <div class="skill-item">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-syne text-xl font-bold tracking-wide">Adobe Illustrator</span>
+                                <span class="font-space text-sm text-gray-400">75%</span>
+                            </div>
+                            <div class="w-full h-[2px] bg-gray-800 relative">
+                                <div class="absolute top-0 left-0 h-full bg-white skill-bar" style="width: 0%" data-target="75%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Skill 3 -->
+                        <div class="skill-item">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-syne text-xl font-bold tracking-wide">Adobe Premiere Pro</span>
+                                <span class="font-space text-sm text-gray-400">65%</span>
+                            </div>
+                            <div class="w-full h-[2px] bg-gray-800 relative">
+                                <div class="absolute top-0 left-0 h-full bg-white skill-bar" style="width: 0%" data-target="65%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Skill 4 -->
+                        <div class="skill-item">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="font-syne text-xl font-bold tracking-wide">Adobe After Effects</span>
+                                <span class="font-space text-sm text-gray-400">45%</span>
+                            </div>
+                            <div class="w-full h-[2px] bg-gray-800 relative">
+                                <div class="absolute top-0 left-0 h-full bg-white skill-bar" style="width: 0%" data-target="45%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -526,11 +642,11 @@
                 <p class="text-xl md:text-2xl max-w-2xl mb-12 font-light">
                     Available for freelance projects. Let's create something memorable together.
                 </p>
-                <a href="mailto:contact@kunalverma.com" class="text-lg border-b border-black pb-1 hover:pb-2 transition-all duration-300 hover-trigger">hello@kunalverma.com</a>
+                <a href="mailto:kvstudio853@gmail.com" class="text-lg border-b border-black pb-1 hover:pb-2 transition-all duration-300 hover-trigger">kvstudio853@gmail.com</a>
 
                 <div class="flex gap-8 mt-16 text-sm uppercase font-bold tracking-widest">
-                    <a href="#" class="hover:text-gray-500 transition-colors hover-trigger">Instagram</a>
-                    <a href="#" class="hover:text-gray-500 transition-colors hover-trigger">LinkedIn</a>
+                    <a href="https://www.instagram.com/kv_studio01/?hl=en" class="hover:text-gray-500 transition-colors hover-trigger">Instagram</a>
+                    <a href="https://www.linkedin.com/in/kunal-verma-048907321/" class="hover:text-gray-500 transition-colors hover-trigger">LinkedIn</a>
                     <a href="#" class="hover:text-gray-500 transition-colors hover-trigger">Behance</a>
                 </div>
 
@@ -659,7 +775,7 @@
 
     <script>
         lucide.createIcons();
-        const apiKey = ""; // Runtime provided key
+        let apiKey = ""; // Runtime provided key OR User provided key
 
         // --- Data: Project Details ---
         const projects = {
@@ -668,7 +784,7 @@
                 category: 'Branding / Identity',
                 client: 'Axion Tech',
                 services: 'Brand Strategy, Visual Identity, UI/UX',
-                year: '2024',
+                year: '2025',
                 desc: 'Axion needed a brand identity that communicated speed, precision, and future-forward thinking. We developed a dynamic visual system based on kinetic energy and motion, resulting in a logo that feels like it is constantly moving forward.',
                 img: 'AXION.jpg',
                 next: 'crave'
@@ -678,7 +794,7 @@
                 category: 'Photography / Social Media',
                 client: 'Crave Burgers',
                 services: 'Art Direction, Photography, Social Media',
-                year: '2023',
+                year: '2025',
                 desc: 'For Crave, the goal was to make the viewer hungry instantly. We utilized high-contrast lighting and macro photography to highlight the textures and freshness of the ingredients, creating a "food porn" aesthetic that went viral on social media.',
                 img: 'Burger.jpg',
                 next: 'unbound'
@@ -688,7 +804,7 @@
                 category: 'Editorial / Print',
                 client: 'Unbound Magazine',
                 services: 'Editorial Design, Layout, Typography',
-                year: '2023',
+                year: '2025',
                 desc: 'Unbound is a lifestyle magazine for the modern creative. The layout design prioritizes white space and bold typography to create a reading experience that feels breathable and sophisticated, reflecting the unhurried pace of the content.',
                 img: 'Unbound.jpg',
                 next: 'forge'
@@ -698,7 +814,7 @@
                 category: 'Product / Branding',
                 client: 'Forge Supplements',
                 services: 'Packaging, Brand Identity, 3D Render',
-                year: '2024',
+                year: '2025',
                 desc: 'Forge targets elite athletes who demand the best. The branding utilizes metallic textures, industrial typography, and a stark black-and-white palette to convey strength, purity, and scientific rigour.',
                 img: 'Forgeprotein.jpg',
                 next: 'zest'
@@ -708,7 +824,7 @@
                 category: 'Packaging / Organic',
                 client: 'Zest Organics',
                 services: 'Packaging Design, Illustration',
-                year: '2023',
+                year: '2025',
                 desc: 'Zest wanted to stand out in the crowded juice aisle. We avoided the typical "rustic" look and went for a vibrant, pop-art inspired aesthetic that captures the explosion of flavor found in every bottle.',
                 img: 'lemonjuice.jpg',
                 next: 'nescafe'
@@ -718,7 +834,7 @@
                 category: 'Concept / Rebranding',
                 client: 'Concept Project',
                 services: 'Rebranding, Packaging',
-                year: '2024',
+                year: '2025',
                 desc: 'A conceptual reimagining of the iconic coffee brand. This project explores how Nescafe could pivot to a premium, minimalist aesthetic while retaining its recognizable brand assets, appealing to a younger, design-conscious demographic.',
                 img: 'coffeenescafe.jpg',
                 next: 'street'
@@ -738,7 +854,7 @@
                 category: 'Packaging / Eco',
                 client: 'Brew Coffee Co.',
                 services: 'Sustainable Packaging, Branding',
-                year: '2023',
+                year: '2024',
                 desc: 'Brew is committed to zero waste. The packaging design reflects this ethos with simple, ink-saving typography printed directly on biodegradable materials. The design proves that sustainability does not mean sacrificing style.',
                 img: 'coffeeminimalism.jpg',
                 next: 'dfz'
@@ -885,19 +1001,6 @@
                 delay: 0.8
             });
 
-            // Parallax Background
-            gsap.to("#hero-bg", {
-                scrollTrigger: {
-                    trigger: "header",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                },
-                y: 100,
-                scale: 1.1,
-                ease: "none"
-            });
-
             // Project Cards Animation
             const cards = document.querySelectorAll('.project-card');
             cards.forEach(card => {
@@ -912,6 +1015,22 @@
                     opacity: 0,
                     duration: 1,
                     ease: "power3.out"
+                });
+            });
+
+            // Skills Animation
+            const skillBars = document.querySelectorAll('.skill-bar');
+            skillBars.forEach(bar => {
+                const target = bar.getAttribute('data-target');
+                gsap.to(bar, {
+                    width: target,
+                    duration: 1.5,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: bar,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
                 });
             });
         }
@@ -997,6 +1116,35 @@
         };
 
         async function handleGeminiResponse(userMessage) {
+            // 1. Check for API KEY logic
+            if (!apiKey) {
+                apiKey = localStorage.getItem('gemini_api_key') || "";
+            }
+
+            if (!apiKey) {
+                // If message looks like a key, save it
+                if (userMessage.trim().startsWith('AIza')) {
+                    apiKey = userMessage.trim();
+                    localStorage.setItem('gemini_api_key', apiKey);
+                    
+                    // Artificial delay to mimic processing
+                    showTyping();
+                    setTimeout(() => {
+                        removeTyping();
+                        addMessage('ai', "API Key saved! 🧠 I'm ready to chat. What would you like to know about Kunal's work?");
+                    }, 800);
+                    return;
+                } else {
+                    // Ask for key
+                    showTyping();
+                    setTimeout(() => {
+                        removeTyping();
+                        addMessage('ai', "I'm running in a demo environment. To enable my brain 🧠, please paste your **Google Gemini API Key** here.\n\n(It starts with 'AIza...')");
+                    }, 500);
+                    return;
+                }
+            }
+
             showTyping();
 
             // Construct System Prompt
@@ -1023,14 +1171,13 @@
                 INSTRUCTIONS:
                 1. Answer questions about Kunal's specific projects using the data provided.
                 2. If asked for a "Concept" or "Idea", generate a creative brief (Color palette, Typography style, Vibe) based on the user's request.
-                3. If asked about contact, direct to hello@kunalverma.com.
+                3. If asked about contact, direct to kvstudio853@gmail.com.
                 4. Keep responses short (under 60 words) unless generating a concept.
                 5. Use Markdown for formatting (bold for emphasis).
             `;
 
             try {
                 // Prepare API Call
-                // Note: We are using a retry logic manually if needed, but for simplicity here we do a direct call.
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1044,22 +1191,29 @@
                 const data = await response.json();
                 removeTyping();
 
-                if (data.candidates && data.candidates[0].content) {
+                if (data.error) {
+                    // Handle API Key errors specifically
+                     if (data.error.code === 400 || data.error.code === 403) {
+                        localStorage.removeItem('gemini_api_key');
+                        apiKey = "";
+                        addMessage('ai', "It seems that API Key is invalid or expired. Please paste a valid Google Gemini API Key to continue.");
+                     } else {
+                        addMessage('ai', `I encountered an error: ${data.error.message}`);
+                     }
+                } else if (data.candidates && data.candidates[0].content) {
                     const reply = data.candidates[0].content.parts[0].text;
                     addMessage('ai', reply);
                 } else {
-                    addMessage('ai', "I'm having a bit of a creative block (API Error). Try again?");
+                    addMessage('ai', "I'm having a bit of a creative block. Try again?");
                 }
 
             } catch (error) {
                 removeTyping();
                 console.error(error);
-                addMessage('ai', "My connection to the creative cloud is fuzzy. Please try again.");
+                addMessage('ai', "My connection to the creative cloud is fuzzy. Please check your internet connection.");
             }
         }
 
     </script>
 </body>
-
 </html>
-
